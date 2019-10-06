@@ -1,0 +1,26 @@
+.property-card {
+  margin: 30px auto;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
+  border-radius: 3px;
+  background-color: #fff;
+
+  &__header {
+    text-align: left;
+
+    img {
+      margin: 12px 8px;
+    }
+  }
+
+  &__main-image {
+    width: 100%;
+    height: auto;
+  }
+
+  &__price {
+    margin-left: 24px;
+    text-align: left;
+  }
+}
