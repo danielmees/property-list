@@ -5,6 +5,7 @@
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
   border-radius: 3px;
   background-color: #fff;
+  position: relative;
 
   &__header {
     text-align: left;
@@ -22,5 +23,35 @@
   &__price {
     margin-left: 24px;
     text-align: left;
+  }
+
+  .btn {
+    display: none;
+    position: absolute;
+    bottom: 150px;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 20px;
+    border: 2px solid;
+    cursor: pointer;
+    outline: none;
+
+    &.btn--add {
+      left: 26%;
+      color: #143a2c;
+      background-color: #d2f4e7;
+      border-color: #143a2c;
+    }
+
+    &.btn--remove {
+      left: 22%;
+      color: #7c1b13;
+      background-color: #f7d5d2;
+      border-color: #7c1b13;
+    }
+  }
+
+  &:hover .btn {
+    display: block;
   }
 }

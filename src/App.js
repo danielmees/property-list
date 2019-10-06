@@ -31,7 +31,7 @@ class App extends Component {
   renderResultsList() {
     return (
       this.state.resultsProperties.map(property =>
-        <PropertyCard key={property.id} property={property} />
+        <PropertyCard key={property.id} property={property} buttonType='Add' />
       )
     );
   }
@@ -39,7 +39,7 @@ class App extends Component {
   renderSavedList() {
     return (
       this.state.savedProperties.map(property =>
-        <PropertyCard key={property.id} property={property} />
+        <PropertyCard key={property.id} property={property} buttonType='Remove' />
       )
     );
   }
