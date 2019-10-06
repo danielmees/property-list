@@ -45,18 +45,22 @@ class App extends Component {
   }
 
   addProperty = (id) => {
-    const isPropertyExist = this.state.savedProperties.filter(property => property.id === id).length > 0;
-    if (!isPropertyExist) {
-      const propertyToAdd = this.state.resultsProperties.filter(property => property.id === id)[0];
-      const savedProperties = this.state.savedProperties;
-      savedProperties.push(propertyToAdd);
-      this.setState({ savedProperties });
+    if (id) {
+      const isPropertyExist = this.state.savedProperties.filter(property => property.id === id).length > 0;
+      if (!isPropertyExist) {
+        const propertyToAdd = this.state.resultsProperties.filter(property => property.id === id)[0];
+        const savedProperties = this.state.savedProperties;
+        savedProperties.push(propertyToAdd);
+        this.setState({ savedProperties });
+      }
     }
   }
 
   removeProperty = (id) => {
-    const leftProperties = this.state.savedProperties.filter(property => property.id !== id);
-    this.setState({ savedProperties: leftProperties });
+    if (id) {
+      const leftProperties = this.state.savedProperties.filter(property => property.id !== id);
+      this.setState({ savedProperties: leftProperties });
+    }
   }
 
   render() {
@@ -69,14 +73,14 @@ class App extends Component {
          }
          { (!loading && !error) &&
            <React.Fragment>
-           <div className='property-list'>
-             <h2>Results</h2>
-             {this.renderResultsList()}
-           </div>
-           <div className='property-list'>
-             <h2>Saved Properties</h2>
-             {this.renderSavedList()}
-           </div>
+             <div className='property-list'>
+               <h2>Results</h2>
+               {this.renderResultsList()}
+             </div>
+             <div className='property-list'>
+               <h2>Saved Properties</h2>
+               {this.renderSavedList()}
+             </div>
            </React.Fragment>
          }
          { (!loading && error) &&
