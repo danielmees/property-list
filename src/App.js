@@ -31,7 +31,7 @@ class App extends Component {
   renderResultsList() {
     return (
       this.state.resultsProperties.map(property =>
-        <PropertyCard key={property.id} property={property} buttonType='Add' />
+        <PropertyCard key={property.id} id={property.id} property={property} buttonType='Add' addProperty={this.addProperty} />
       )
     );
   }
@@ -39,9 +39,24 @@ class App extends Component {
   renderSavedList() {
     return (
       this.state.savedProperties.map(property =>
-        <PropertyCard key={property.id} property={property} buttonType='Remove' />
+        <PropertyCard key={property.id} id={property.id} property={property} buttonType='Remove' removeProperty={this.removeProperty} />
       )
     );
+  }
+
+  addProperty = (id) => {
+    const isPropertyExist = this.state.savedProperties.filter(property => property.id === id).length > 0;
+    if (!isPropertyExist) {
+      const propertyToAdd = this.state.resultsProperties.filter(property => property.id === id)[0];
+      const savedProperties = this.state.savedProperties;
+      savedProperties.push(propertyToAdd);
+      this.setState({ savedProperties });
+    }
+  }
+
+  removeProperty = (id) => {
+    const leftProperties = this.state.savedProperties.filter(property => property.id !== id);
+    this.setState({ savedProperties: leftProperties });
   }
 
   render() {
