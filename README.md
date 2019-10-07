@@ -17,12 +17,10 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Please find some additional details when I was implementing the solution below
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+1. The page is fully responsive and some design ideas of the property cards came from the live website, such as logo design,
+border radius, card shadow, etc.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. The logo links provided in the original documents were not available and returned 404 results, so I searched the live website and found the closest agency logos by comparing the branding colours. In order to make the code clean and avoid hardcoding the new logos I found with the original ones, I updated the json file with new logo links.  
