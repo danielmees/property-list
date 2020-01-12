@@ -1,7 +1,7 @@
 import React from 'react';
 import './propertycard.scss';
 
-const PropertyCard = ({ id, property, buttonType, addProperty, removeProperty }) => {
+function PropertyCard({ id, property, buttonType, addProperty, removeProperty }) {
 
   const { price, agency, mainImage } = property;
 

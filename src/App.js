@@ -1,94 +1,87 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './app.scss';
 import PropertyCard from './components/PropertyCard';
 
-class App extends Component {
-  state = {
-    loading: true,
-    resultsProperties: [],
-    savedProperties: [],
-    error: false
-  };
+function App() {
+  const [loading, setLoading] = useState(true);
+  const [resultsProperties, setResultsProperties] = useState([]);
+  const [savedProperties, setSavedProperties] = useState([]);
+  const [error, setError] = useState(false);
 
-  componentDidMount() {
-    return axios.get('http://localhost:3000/db/property.json')
+  useEffect(() => fetchData(), []);
+
+  const fetchData = () => {
+    axios.get('http://localhost:3000/db/property.json')
       .then(res => {
-        this.setState({
-          loading: false,
-          resultsProperties: res.data.results,
-          savedProperties: res.data.saved
-        });
+        setLoading(false);
+        setResultsProperties(res.data.results);
+        setSavedProperties(res.data.saved);
       })
       .catch(() => {
-        this.setState({
-          loading: false,
-          error: 'Oops, something went wrong!'
-        });
+        setLoading(false);
+        setError('Oops, something went wrong!');
       });
   }
 
-  renderResultsList() {
+  const renderResultsList = () => {
     return (
-      this.state.resultsProperties.map(property =>
-        <PropertyCard key={property.id} id={property.id} property={property} buttonType='Add' addProperty={this.addProperty} />
+      resultsProperties.map(property =>
+        <PropertyCard key={property.id} id={property.id} property={property} buttonType='Add' addProperty={addProperty} />
       )
     );
   }
 
-  renderSavedList() {
+  const renderSavedList = () => {
     return (
-      this.state.savedProperties.map(property =>
-        <PropertyCard key={property.id} id={property.id} property={property} buttonType='Remove' removeProperty={this.removeProperty} />
+      savedProperties.map(property =>
+        <PropertyCard key={property.id} id={property.id} property={property} buttonType='Remove' removeProperty={removeProperty} />
       )
     );
   }
 
-  addProperty = (id) => {
+  const addProperty = (id) => {
     if (id) {
-      const isPropertyExist = this.state.savedProperties.filter(property => property.id === id).length > 0;
+      const isPropertyExist = savedProperties.filter(property => property.id === id).length > 0;
       if (!isPropertyExist) {
-        const propertyToAdd = this.state.resultsProperties.filter(property => property.id === id)[0];
-        const savedProperties = this.state.savedProperties;
-        savedProperties.push(propertyToAdd);
-        this.setState({ savedProperties });
+        const propertyToAdd = resultsProperties.filter(property => property.id === id)[0];
+        const newSavedProperties = [...savedProperties];
+        newSavedProperties.push(propertyToAdd);
+        setSavedProperties(newSavedProperties);
       }
     }
   }
 
-  removeProperty = (id) => {
+  const removeProperty = (id) => {
     if (id) {
-      const leftProperties = this.state.savedProperties.filter(property => property.id !== id);
-      this.setState({ savedProperties: leftProperties });
+      const leftProperties = savedProperties.filter(property => property.id !== id);
+      setSavedProperties(leftProperties);
     }
   }
 
-  render() {
-    const { loading, error } = this.state;
-
-    return (
-      <div className='container'>
-         { loading &&
-           <h3 className='loading'>Loading... Please wait</h3>
-         }
-         { (!loading && !error) &&
-           <React.Fragment>
-             <div className='property-list'>
-               <h2>Results</h2>
-               {this.renderResultsList()}
-             </div>
-             <div className='property-list'>
-               <h2>Saved Properties</h2>
-               {this.renderSavedList()}
-             </div>
-           </React.Fragment>
-         }
-         { (!loading && error) &&
-           <h3 className='error'>{error}</h3>
-         }
-      </div>
-    );
-  }
+  return (
+    <div className='container'>
+       { loading &&
+         <h3 className='loading'>Loading... Please wait</h3>
+       }
+       { (!loading && !error) &&
+         <>
+           <div className='property-list'>
+             <h2>Results</h2>
+             {renderResultsList()}
+           </div>
+           <div className='property-list'>
+             <h2>Saved Properties</h2>
+             {renderSavedList()}
+           </div>
+         </>
+       }
+       { (!loading && error) &&
+         <h3 className='error'>{error}</h3>
+       }
+    </div>
+  );
+  
 }
 
 export default App;
